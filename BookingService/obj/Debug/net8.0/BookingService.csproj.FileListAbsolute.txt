@@ -282,3 +282,17 @@ C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingServi
 C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\obj\Debug\net8.0\BookingService.pdb
 C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\obj\Debug\net8.0\BookingService.genruntimeconfig.cache
 C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\obj\Debug\net8.0\ref\BookingService.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\obj\Debug\net8.0\BookingService.sourcelink.json
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Microsoft.Extensions.FileProviders.Abstractions.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.AspNetCore.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Extensions.Hosting.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Extensions.Logging.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Formatting.Compact.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Settings.Configuration.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Sinks.Console.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Sinks.Debug.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Sinks.File.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Sinks.PeriodicBatching.dll
+C:\Users\Knut Edvard Kjersem\RiderProjects\JulianPMS\BookingService\BookingService\bin\Debug\net8.0\Serilog.Sinks.PostgreSQL.dll
