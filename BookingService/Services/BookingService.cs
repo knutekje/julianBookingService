@@ -91,14 +91,14 @@ public class BookingService : IBookingService
 
        // Fetch room numbers that are already booked for the given dates
        var bookedRoomNumbers = await _context.Bookings
-           .Where(b => b.CheckOutDate > normalizedCheckIn && b.CheckInDate < normalizedCheckOut)
+           .Where(b => b.CheckOutDate > normalizedCheckIn && b.CheckInDate < normalizedCheckOut && b.Status != "Out of Service")
            .Select(b => b.RoomNumber)
            .ToListAsync();
 
        // Return rooms that are not booked during the given dates
        return rooms.Where(r => !bookedRoomNumbers.Contains(r.RoomNumber));
    }
-
+ 
 
     
     
