@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Configuration.AddEnvironmentVariables();
 
-builder.WebHost.ConfigureKestrel(options =>
-{
-    options.ListenAnyIP(8082); // Explicitly bind to port 8082
-});
+
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -57,6 +57,38 @@ builder.Services.AddHttpClient<RoomServiceClient>(client =>
 builder.Services.AddScoped<IRoomServiceClient, RoomServiceClient>();
 
 
+builder.WebHost.ConfigureKestrel((context, options) =>
+{
+    var env = context.HostingEnvironment;
+
+    if (env.IsDevelopment())
+    {
+        options.ListenAnyIP(8082);
+        options.ListenAnyIP(8445, listenOptions =>
+        {
+            listenOptions.UseHttps(); // Development uses .NET dev certs
+        });
+    }
+    else
+    {
+        var certPath = context.Configuration["CERTPATH"];
+        var certPassword = context.Configuration["PASSPATH"];
+
+        if (string.IsNullOrEmpty(certPath) || string.IsNullOrEmpty(certPassword))
+        {
+            throw new InvalidOperationException(
+                $"Certificate path or password is not configured. Path: {certPath}, Password: {(string.IsNullOrEmpty(certPassword) ? "Not Provided" : "Provided")}");
+        }
+
+        options.ListenAnyIP(8082); // HTTP port
+        options.ListenAnyIP(8445, listenOptions =>
+        {
+            listenOptions.UseHttps(certPath, certPassword);
+        });
+    }
+});
+
+
 
 // Add Controllers
 builder.Services.AddControllers();
@@ -78,6 +110,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseCors("AllowAll");
 app.MapControllers();
