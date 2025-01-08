@@ -12,21 +12,12 @@ builder.Configuration.AddEnvironmentVariables();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll",
-        policy =>
-        {
-            policy
-                .WithOrigins(
-                    "http://192.168.100.109:8081",
-                    "http://localhost:8081",
-                    "http://localhost:3000",
-                    "http://localhost:3001",
-                    "http://localhost:5174",
-                    "http://localhost:5172")
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                ;
-        });
+    options.AddPolicy("ApiGatewayPolicy", builder =>
+    {
+        builder.WithOrigins("http://nginx", "https://nginx") // NGINX service in Docker
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 Log.Logger = new LoggerConfiguration()
@@ -115,9 +106,8 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseCors("AllowAll");
+app.UseCors("ApiGatewayPolicy");
 app.MapControllers();
-app.UseHttpsRedirection();
 
 
 
