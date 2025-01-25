@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/BookingService.Tests.csproj": {}
+    "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/BookingService.Tests.csproj": {}
   },
   "projects": {
-    "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/BookingService.Tests.csproj": {
+    "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/BookingService.Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/BookingService.Tests.csproj",
+        "projectUniqueName": "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/BookingService.Tests.csproj",
         "projectName": "BookingService.Tests",
-        "projectPath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/BookingService.Tests.csproj",
+        "projectPath": "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/BookingService.Tests.csproj",
         "packagesPath": "/home/knutekje/.nuget/packages/",
-        "outputPath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/obj/",
+        "outputPath": "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/knutekje/.nuget/NuGet/NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj": {
-                "projectPath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj"
+              "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj": {
+                "projectPath": "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj"
               }
             }
           }
@@ -36,20 +36,15 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "FluentAssertions": {
+            "Microsoft.EntityFrameworkCore.Analyzers": {
               "target": "Package",
-              "version": "[7.0.0, )"
+              "version": "[9.0.1, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
@@ -92,18 +87,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/knutekje/.dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.112/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj": {
+    "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj",
+        "projectUniqueName": "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj",
         "projectName": "BookingService",
-        "projectPath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj",
+        "projectPath": "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj",
         "packagesPath": "/home/knutekje/.nuget/packages/",
-        "outputPath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/obj/",
+        "outputPath": "/home/knutekje/Documents/julianpms/BookingService/BookingService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/knutekje/.nuget/NuGet/NuGet.Config"
@@ -124,11 +119,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -201,7 +191,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/home/knutekje/.dotnet/sdk/8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.112/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
