@@ -42,9 +42,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "Microsoft.EntityFrameworkCore.Analyzers": {
+            "FluentAssertions": {
               "target": "Package",
-              "version": "[9.0.1, )"
+              "version": "[7.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.InMemory": {
               "target": "Package",
