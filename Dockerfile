@@ -29,7 +29,7 @@ RUN mkdir -p /https
 RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
     -keyout /https/aspnetcore.key \
     -out /https/aspnetcore.crt \
-    -subj "/CN=localhost" \
+    -subj "/CN=booking-service" \
  && openssl pkcs12 -export -out /https/aspnetcore.pfx -inkey /https/aspnetcore.key \
     -in /https/aspnetcore.crt -password pass:YourCertificatePassword
 

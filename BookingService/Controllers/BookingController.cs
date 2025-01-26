@@ -1,4 +1,6 @@
-﻿using BookingService.Models;
+﻿using System.Globalization;
+using BookingService.DTOs;
+using BookingService.Models;
 using BookingService.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,10 +33,9 @@ public class BookingsController : ControllerBase
     }
 
     [HttpPost]
-    [HttpPost]
     public async Task<ActionResult<Booking>> PostBooking(Booking booking)
     {
-        var isValidRoom = await _bookingService.ValidateRoomForBooking(booking.RoomNumber, booking.CheckInDate, booking.CheckOutDate);
+        var isValidRoom = await _bookingService.ValidateRoomAvailabilityForBookingAsync(booking.RoomId, booking.CheckInDate, booking.CheckOutDate);
 
         if (!isValidRoom)
         {
@@ -53,8 +54,8 @@ public class BookingsController : ControllerBase
             return BadRequest("Check-in date must be earlier than check-out date.");
         }
 
-        var isRoomValid = await _bookingService.ValidateRoomForBooking(
-            updatedBooking.RoomNumber, updatedBooking.CheckInDate, updatedBooking.CheckOutDate);
+        var isRoomValid = await _bookingService.ValidateRoomAvailabilityForBookingAsync(
+            updatedBooking.RoomId, updatedBooking.CheckInDate, updatedBooking.CheckOutDate);
 
         if (!isRoomValid)
         {
@@ -78,23 +79,25 @@ public class BookingsController : ControllerBase
         return NoContent();
     }
     
-    [HttpGet("available-rooms")]
-    public async Task<ActionResult<IEnumerable<Room>>> GetAvailableRooms(DateTime checkIn, DateTime checkOut)
+    [HttpPost("available-rooms")]
+    public async Task<ActionResult<IEnumerable<RoomDTO>>> GetAvailableRooms(CheckRoomDTO checkRoom)
     {
-        if (checkIn >= checkOut)
+        if (checkRoom.CheckIn >= checkRoom.CheckOut)
         {
             return BadRequest("Check-in date must be earlier than check-out date.");
         }
 
-        var availableRooms = await _bookingService.GetAvailableRoomsAsync(checkIn, checkOut);
+        var availableRooms = await _bookingService.GetAvailableRoomsAsync(checkRoom.CheckIn, checkRoom.CheckOut);
 
         if (!availableRooms.Any())
         {
             return NotFound("No available rooms for the selected dates.");
         }
 
+
         return Ok(availableRooms);
     }
+
 
     
 }

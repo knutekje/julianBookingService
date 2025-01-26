@@ -1,5 +1,6 @@
 using BookingService;
 using BookingService.Data;
+using BookingService.External;
 using BookingService.Services;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
@@ -41,16 +42,30 @@ builder.Services.AddDbContext<BookingDbContext>(options =>
 
 // Add Services
 builder.Services.AddScoped<IBookingService, BookingService.Services.BookingService>();
-builder.Services.AddHttpClient<RoomServiceClient>(client =>
+
+builder.Services.AddHttpClient<IRoomServiceClient ,RoomServiceClient>(client =>
 {
-    client.BaseAddress = new Uri("http://room-service:8081/");
+    client.BaseAddress = new Uri("http://room-service:8444/");  
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
 });
-builder.Services.AddScoped<IRoomServiceClient, RoomServiceClient>();
+    
+
+
+builder.Services.AddHttpClient<IGuestServiceClient, GuestServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("http://guest-service:8442/");
+}).ConfigurePrimaryHttpMessageHandler(() => new HttpClientHandler
+{
+    ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+});
+
 
 
 builder.WebHost.ConfigureKestrel((context, options) =>
 {
-    var env = context.HostingEnvironment;
+    var env = context.HostingEnvironment;   
 
     if (env.IsDevelopment())
     {
@@ -95,7 +110,6 @@ if(!app.Environment.IsDevelopment())
     }
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

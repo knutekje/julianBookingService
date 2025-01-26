@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingService.Migrations
 {
     [DbContext(typeof(BookingDbContext))]
-    [Migration("20250104095112_UpdateTimestamps")]
-    partial class UpdateTimestamps
+    [Migration("20250122112158_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,22 @@ namespace BookingService.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("BookingService.Models.BookedRoom", b =>
+                {
+                    b.Property<int>("RoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("DateBooked")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("BookingId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RoomId", "DateBooked");
+
+                    b.ToTable("BookedRooms");
+                });
 
             modelBuilder.Entity("BookingService.Models.Booking", b =>
                 {
@@ -39,17 +55,20 @@ namespace BookingService.Migrations
                     b.Property<DateTime>("CheckOutDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("GuestName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<bool>("CheckedIn")
+                        .HasColumnType("boolean");
 
-                    b.Property<string>("RoomNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("GuestId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoomId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

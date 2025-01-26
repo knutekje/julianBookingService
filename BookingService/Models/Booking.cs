@@ -1,10 +1,10 @@
 ﻿namespace BookingService.Models;
+
 public class Booking
 {
-    public int Id { get; set; }
-    public string RoomNumber { get; set; } = string.Empty;
-    public string GuestName { get; set; } = string.Empty;
-
+    public int Id { get; set; } 
+    public int RoomId { get; set; } 
+    public int GuestId { get; set; } 
     private DateTime _checkInDate;
     public DateTime CheckInDate
     {
@@ -18,7 +18,9 @@ public class Booking
         get => _checkOutDate;
         set => _checkOutDate = DateTime.SpecifyKind(value, DateTimeKind.Utc);
     }
+    public bool CheckedIn { get; set; } = false; 
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public DateTime? UpdatedAt { get; set; }
 
-    public string Status { get; set; } = "Pending"; // Pending, Confirmed, Cancelled
+    
 }
-

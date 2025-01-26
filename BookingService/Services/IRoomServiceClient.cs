@@ -1,10 +1,13 @@
-﻿
-using BookingService.Models;
+﻿using BookingService.DTOs;
 
-namespace BookingService.Services;
-
-public interface IRoomServiceClient
+namespace BookingService.External
 {
-    Task<IEnumerable<Room>> GetAllRoomsAsync();
-    Task<Room?> GetRoomByNumberAsync(string roomNumber);
+    public interface IRoomServiceClient
+    {
+        Task<RoomDTO?> GetRoomByIdAsync(int id);
+        Task<RoomDTO?> GetRoomByRoomNumberAsync(string roomNumber);
+        Task<IEnumerable<RoomDTO>> GetAllRoomsAsync();
+        Task<IEnumerable<RoomDTO>> GetDirtyRoomsAsync();
+        Task<IEnumerable<RoomDTO>> GetRoomsExcludingIdsAsync(IEnumerable<int> excludedRoomIds);
+    }
 }

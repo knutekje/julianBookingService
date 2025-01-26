@@ -1,6 +1,9 @@
-﻿using BookingService.Models;
+﻿using BookingService.DTOs;
+using BookingService.Models;
 
 namespace BookingService.Services;
+
+
 
 public interface IBookingService
 {
@@ -8,8 +11,8 @@ public interface IBookingService
     Task<Booking?> GetBookingByIdAsync(int id);
     Task<Booking> CreateBookingAsync(Booking booking);
     Task<bool> DeleteBookingAsync(int id);
-    Task<IEnumerable<Room>> GetAvailableRoomsAsync(DateTime checkIn, DateTime checkOut);
-    Task<bool> IsRoomOccupiedAsync(string roomNumber, DateTime date);
-    Task<bool> ValidateRoomForBooking(string bookingRoomNumber, DateTime bookingCheckInDate, DateTime bookingCheckOutDate);
     Task<Booking?> UpdateBookingAsync(int id, Booking updatedBooking);
+    Task<IEnumerable<RoomDTO>> GetAvailableRoomsAsync(DateTime checkIn, DateTime checkOut);
+    Task<bool> IsRoomAvailableAsync(int roomId, DateTime checkIn, DateTime checkOut);
+    Task<bool> ValidateRoomAvailabilityForBookingAsync(int roomId, DateTime checkIn, DateTime checkOut);
 }

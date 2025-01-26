@@ -1,100 +1,96 @@
 ﻿using BookingService.Data;
+using BookingService.DTOs;
+using BookingService.External;
 using BookingService.Models;
 using BookingService.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
-using FluentAssertions;
 
 public class BookingServiceTests
 {
-    private readonly BookingDbContext _context;
-    private readonly Mock<IRoomServiceClient> _mockRoomServiceClient;
+    private readonly BookingDbContext _dbContext;
+    private readonly Mock<IRoomServiceClient> _roomServiceClientMock;
+    private readonly Mock<IGuestServiceClient> _guestServiceClientMock;
     private readonly BookingService.Services.BookingService _bookingService;
 
     public BookingServiceTests()
     {
         var options = new DbContextOptionsBuilder<BookingDbContext>()
-            .UseInMemoryDatabase(databaseName: "BookingServiceTestDb")
+            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString()) 
             .Options;
 
-        _context = new BookingDbContext(options);
-        _mockRoomServiceClient = new Mock<IRoomServiceClient>();
-        _bookingService = new BookingService.Services.BookingService(_context, _mockRoomServiceClient.Object);
+        _dbContext = new BookingDbContext(options);
+
+        _roomServiceClientMock = new Mock<IRoomServiceClient>();
+        _guestServiceClientMock = new Mock<IGuestServiceClient>();
+
+        _bookingService = new BookingService.Services.BookingService(
+            _dbContext,
+            _guestServiceClientMock.Object,
+            _roomServiceClientMock.Object
+        );
     }
-    public void Dispose()
-    {
-        _context.Dispose(); // Dispose the DbContext after each test
-    }
+
     [Fact]
     public async Task GetAvailableRoomsAsync_ShouldReturnAvailableRooms()
     {
-        // Arrange
-        var rooms = new List<Room>
-        {
-            new Room { RoomNumber = "101", Status = "Clean" },
-            new Room { RoomNumber = "102", Status = "Out of Service" },
-            new Room { RoomNumber = "103", Status = "Clean" }
-        };
-        _mockRoomServiceClient.Setup(client => client.GetAllRoomsAsync()).ReturnsAsync(rooms);
-
-        _context.Bookings.Add(new Booking
-        {
-            RoomNumber = "101",
-            CheckInDate = DateTime.UtcNow,
-            CheckOutDate = DateTime.UtcNow.AddDays(1),
-            Status = "Confirmed"
-        });
-        await _context.SaveChangesAsync();
-
-        // Act
-        var availableRooms = await _bookingService.GetAvailableRoomsAsync(DateTime.UtcNow, DateTime.UtcNow.AddDays(1));
-
-        // Assert
-        //availableRooms.Should().Contain("103");
-        //availableRooms.Should().NotContain("101");
-        //availableRooms.Should().NotContain("102");
-
-        Dispose();
-    }
-
-    [Fact]
-    public async Task ValidateRoomForBooking_ShouldReturnFalse_WhenRoomIsUnavailable()
-    {
-        // Arrange
-        var room = new Room { RoomNumber = "101", Status = "Clean" };
-        _mockRoomServiceClient.Setup(client => client.GetRoomByNumberAsync("101")).ReturnsAsync(room);
-
-        _context.Bookings.Add(new Booking
-        {
-            RoomNumber = "101",
-            CheckInDate = DateTime.UtcNow,
-            CheckOutDate = DateTime.UtcNow.AddDays(1),
-            Status = "Confirmed"
-        });
-        await _context.SaveChangesAsync();
-
-        // Act
-        var isValid = await _bookingService.ValidateRoomForBooking("101", DateTime.UtcNow, DateTime.UtcNow.AddDays(1));
-
-        // Assert
-        isValid.Should().BeFalse();
+        var checkIn = DateTime.UtcNow.AddDays(1);
+        var checkOut = DateTime.UtcNow.AddDays(5);
+    
+        _dbContext.BookedRooms.AddRange(new List<BookedRoom>
         
-        Dispose();
+        {
+            new BookedRoom { RoomId = 1, DateBooked = DateTime.UtcNow.AddDays(2) },
+            new BookedRoom { RoomId = 2, DateBooked = DateTime.UtcNow.AddDays(3) }
+        });
+        await _dbContext.SaveChangesAsync();
+
+        var bookedRoomIds = new List<int> { 1, 2 };
+
+        var availableRooms = new List<RoomDTO>
+        {
+            new RoomDTO { Id = 3, RoomNumber = "103" },
+            new RoomDTO { Id = 4, RoomNumber = "104" }
+        };
+
+        _roomServiceClientMock.Setup(client => client.GetRoomsExcludingIdsAsync(bookedRoomIds))
+            .ReturnsAsync(availableRooms);
+
+        var result = await _bookingService.GetAvailableRoomsAsync(checkIn, checkOut);
+
+        Assert.NotNull(result);
+        Assert.Equal(2, result.Count());
+        Assert.Equal("103", result.First().RoomNumber);
+        Assert.Equal("104", result.Last().RoomNumber);
+
+        _roomServiceClientMock.Verify(client => client.GetRoomsExcludingIdsAsync(It.Is<IEnumerable<int>>(ids => ids.SequenceEqual(bookedRoomIds))), Times.Once);
     }
+
 
     [Fact]
-    public async Task ValidateRoomForBooking_ShouldReturnTrue_WhenRoomIsAvailable()
+    public async Task GetBookingByIdAsync_ShouldReturnBooking_WhenExists()
     {
-        // Arrange
-        var room = new Room { RoomNumber = "209", Status = "Clean" };
-        _mockRoomServiceClient.Setup(client => client.GetRoomByNumberAsync("209")).ReturnsAsync(room);
+        // Arrange: Create a booking and add it to the in-memory database
+        var bookingId = 1;
+        var booking = new Booking
+        {
+            Id = bookingId,
+            GuestId = 1,
+            CheckInDate = DateTime.UtcNow.AddDays(1),
+            CheckOutDate = DateTime.UtcNow.AddDays(3),
+            RoomId = 1
+        };
 
-        // Act
-        var isValid = await _bookingService.ValidateRoomForBooking("209", DateTime.UtcNow, DateTime.UtcNow.AddDays(1));
+        await _dbContext.Bookings.AddAsync(booking);
+        await _dbContext.SaveChangesAsync();        
 
-        // Assert
-        isValid.Should().BeTrue();
-        Dispose();
+        var result = await _bookingService.GetBookingByIdAsync(bookingId);
+
+        Assert.NotNull(result);                     
+        Assert.Equal(bookingId, result.Id);        
+        Assert.Equal(booking.GuestId, result.GuestId); 
+        Assert.Equal(booking.RoomId, result.RoomId);
     }
+
 }
