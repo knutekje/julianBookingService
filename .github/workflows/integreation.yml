@@ -47,7 +47,7 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build -t ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest -f ./BookingService/Dockerfile .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest -f ./Dockerfile .
 
     - name: Push Docker Image
       run: |
