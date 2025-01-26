@@ -28,7 +28,8 @@ jobs:
       run: dotnet build ./BookingService/BookingService.csproj --configuration Release --no-restore
 
     - name: Run unit tests
-      run: dotnet test ./BookingService.Tests/BookingService.Tests.csproj --no-restore --verbosity normal
+      run: dotnet test
+  #      run: dotnet test ./BookingService.Tests/BookingService.Tests.csproj --no-restore --verbosity normal
 
   docker-build-and-push:
     runs-on: ubuntu-latest
