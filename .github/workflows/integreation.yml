@@ -1,0 +1,53 @@
+name: CI Pipeline for BookingService
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 8.0.x 
+
+    - name: Restore dependencies
+      run: dotnet restore ./BookingService/BookingService.csproj
+
+    - name: Build the project
+      run: dotnet build ./BookingService/BookingService.csproj --configuration Release --no-restore
+
+    - name: Run unit tests
+      run: dotnet test ./BookingService.Tests/BookingService.Tests.csproj --no-restore --verbosity normal
+
+  docker-build-and-push:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker Image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest -f ./BookingService/Dockerfile .
+
+    - name: Push Docker Image
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/bookingservice:latest

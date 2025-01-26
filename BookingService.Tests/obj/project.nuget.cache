@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "cGeQUKRF/mU=",
+  "dgSpecHash": "Dfss5P65PkgFbNR1K99bSXcc3KELi9QpdsZ1M4h+BVsk60FoX6tknGQZwKw78VRQO5H6FTeTWuxSoUhO6LbeVA==",
   "success": true,
-  "projectFilePath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService.Tests/BookingService.Tests.csproj",
+  "projectFilePath": "/home/knutekje/Documents/julianpms/BookingService/BookingService.Tests/BookingService.Tests.csproj",
   "expectedPackageFiles": [
     "/home/knutekje/.nuget/packages/castle.core/5.1.1/castle.core.5.1.1.nupkg.sha512",
     "/home/knutekje/.nuget/packages/coverlet.collector/6.0.0/coverlet.collector.6.0.0.nupkg.sha512",

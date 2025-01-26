@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "r9OFpy+BLDE=",
+  "dgSpecHash": "SsRcynzQk48h+ovD0AGS0c985frDTZj6ZJPmKeNHm7oBOj5XMQfjTIK8SZ5pxpdvG+yrbvq/xdS/HlyCt/23Cg==",
   "success": true,
-  "projectFilePath": "/home/knutekje/Documents/JulianPMS/BookingService/BookingService/BookingService.csproj",
+  "projectFilePath": "/home/knutekje/Documents/julianpms/BookingService/BookingService/BookingService.csproj",
   "expectedPackageFiles": [
     "/home/knutekje/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/home/knutekje/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
