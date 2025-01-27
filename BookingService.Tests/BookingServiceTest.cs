@@ -92,5 +92,7 @@ public class BookingServiceTests
         Assert.Equal(booking.GuestId, result.GuestId); 
         Assert.Equal(booking.RoomId, result.RoomId);
     }
+    
+    
 
 }
